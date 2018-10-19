@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Flex Panels</title>
+<link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
+<style>
+	* {
+		font-family: 'Amatic SC', cursive;
+		color: #fff;
+		text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.75), 0px 0px 14px rgba(0, 0, 0, 0.75);
+	}
+	body {
+		margin: 0;
+		display: flex;
+		height: 100vh;
+		overflow: hidden;
+	}
+	.panel {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		background-position: center;
+		background-size: cover;
+		transition: 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11);
+		box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+	}
+	.panel.clicked {
+      flex: 5;
+    }
+	.panel p {
+		display: flex;
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		margin: 0;
+		font-size: 80px;
+		text-transform: uppercase;
+		transition: 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11);
+	}
+	.panel p:nth-child(2) {
+		font-size: 80px;
+	}
+	.panel p:nth-child(2).maintext {
+		font-size: 120px;
+	}
+	.panel p:first-child.unclicked{
+      transform: translateY(-100%);
+	  font-size: 1px;
+    }
+    .panel p:last-child.unclicked{
+      transform: translateY(100%);
+	  font-size: 1px;
+    }
+	.panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
+    .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
+    .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
+    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
+    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+</style>
+</head>
+<body>
+	<div class="panel panel1">
+		<p class="unclicked">Hey</p>
+		<p>Let's</p>
+		<p class="unclicked">Dance</p>
+	</div>
+	<div class="panel panel2">
+		<p class="unclicked">Give</p>
+		<p>Take</p>
+		<p class="unclicked">Receive</p>
+	</div>
+	<div class="panel panel3">
+		<p class="unclicked">Experience</p>
+		<p>It</p>
+		<p class="unclicked">Today</p>
+	</div>
+	<div class="panel panel4">
+		<p class="unclicked">Give</p>
+		<p>All</p>
+		<p class="unclicked">You can</p>
+	</div>
+	<div class="panel panel5">
+		<p class="unclicked">Life</p>
+		<p>In</p>
+		<p class="unclicked">Motion</p>
+	</div>
+	<script>
+		let elems = document.querySelectorAll(".panel");
+		elems.forEach(function(elem) {
+			elem.addEventListener("click", toggleElem);
+			elem.addEventListener("click", showText);
+		});
+	
+		function toggleElem(){
+			let text = this.querySelector("p:nth-child(2)");
+			if(this.classList.contains("clicked")){
+			this.classList.remove("clicked");
+			text.classList.remove("maintext");
+			} else {
+			elems.forEach(function(allElems){
+				allElems.classList.remove("clicked");
+				allElems.querySelector("p:nth-child(2)").classList.remove("maintext");
+			});
+			this.classList.add("clicked");
+			text.classList.add("maintext");
+			}
+		}
+	
+		function showText(){
+			let firstTexts = document.querySelectorAll(".panel p:first-child"),
+				lastTexts = document.querySelectorAll("p:last-child"),
+				thisFirstText = this.querySelector("p:first-child"),
+				thisLastText = this.querySelector("p:last-child");
+			if(!thisFirstText.classList.contains("unclicked")){
+			thisFirstText.classList.add("unclicked");
+			thisLastText.classList.add("unclicked");
+			} else {
+			firstTexts.forEach(function(item){
+				item.classList.add("unclicked");
+			});
+			lastTexts.forEach(function(item){
+				item.classList.add("unclicked");
+			});
+			thisFirstText.classList.remove("unclicked");
+			thisLastText.classList.remove("unclicked");
+			}
+		};
+	</script>
+</body>
+</html>
