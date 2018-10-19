@@ -62,13 +62,31 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(-270deg);
     }
 
   </style>
 
   <script>
-
-
+    const clockHands = document.querySelectorAll(".hand");
+    function startClock(){
+      let date = new Date(),
+          sec = date.getSeconds(),
+          min = date.getMinutes(),
+          hour = date.getHours();
+      handleClockHands(sec, 0, 0, clockHands[2], 6);
+      handleClockHands(sec, min, 0, clockHands[1], 0.1);
+      handleClockHands(sec, min, hour, clockHands[0], 0.0083333333333);
+    }
+    function handleClockHands(sec, min, hour, clockHand, change){
+      let stockPosition = -270,
+          changeValue = change * (sec + (min * 60) + (hour * 3600)),
+          currentPosition = stockPosition + changeValue;
+      clockHand.style.transform = "rotate(" + currentPosition + "deg)";
+    }
+    startClock();
+    setInterval(startClock, 1000);
   </script>
 </body>
 </html>
