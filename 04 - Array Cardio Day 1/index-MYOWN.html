@@ -31,29 +31,106 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    let arrFilter = inventors.filter(function(elem){
+      if(elem.year >= 1500 && elem.year < 1600) return elem;
+    });
+    // console.table(arrFilter);
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
+    let arrMap = inventors.map(function(elem){
+      return {
+        first: elem.first,
+        last: elem.last
+      };
+    });
+    // console.table(arrMap);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    let arrSort = inventors.sort(function(a, b){
+      if(a.year > b.year) return -1;
+      if(a.year < b.year) return 1;
+      return 0;
+    });
+    // console.table(arrSort);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
+    let arrReduce = inventors.reduce(function(prev, next){
+      if(prev.passed) return (prev.passed - prev.year) + (next.passed - next.year);
+      return prev + (next.passed - next.year);
+    });
+    // console.log(arrReduce);
+
+    // jeśli do reduce dodamy drugi argument, będzie to wartość początkowa (czyli w tym przypadku 'total'), gdy drugiego argumentu nie ma, przy pierwszej iteracji wartość początkowa to pierwszy element tablicy
+    let arrReduceV2 = inventors.reduce(function(total, inventor){
+      return total + (inventor.passed - inventor.year);
+    }, 0);
+    // console.log(arrReduceV2);
 
     // 5. Sort the inventors by years lived
+    let arrSort2 = inventors.sort(function(a, b){
+      if ((a.passed - a.year) > (b.passed - b.year)) return 1;
+      if ((a.passed - a.year) < (b.passed - b.year)) return -1;
+      return 0;
+    })
+    // console.log(arrSort2);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+    
 
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    let arrSort3 = people.sort(function(a, b){
+      const regex = /\w*,\s(\w*)/;
+      if((regex.exec(a))[1] > (regex.exec(b))[1]) return 1;
+      if((regex.exec(a))[1] < (regex.exec(b))[1]) return -1;
+      return 0;
+    });
+    // console.log(arrSort3);
+    let arrSort3v2 = people.sort(function(a, b){
+      if(a.split(", ")[1] > b.split(", ")[1]) return 1;
+      if(a.split(", ")[1] < b.split(", ")[1]) return -1;
+      return 0
+    });
+    // console.log(arrSort3v2);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
+    function generateObj(prev, next, obj){
+      if(next in obj){
+        obj[next] += 1;
+      } else {
+        obj[next] = 1;
+      }
+      return obj;
+    }
+    
+    let arrReduce2 = data.reduce(function(prev, next){
+      if(typeof prev === "string"){
+        let obj = {};
+        obj[prev] = 1;
+        return generateObj(prev, next, obj);
+      } else {
+        let obj = prev;
+        return generateObj(prev, next, obj);
+      }
+    });
+    // console.log(arrReduce2);
 
+    const arrReduce2v2 = data.reduce(function(obj, item){
+      if(item in obj){
+        obj[item]++;
+      } else {
+        obj[item] = 1;
+      }
+      return obj;
+    }, {});
+    console.log(arrReduce2v2);
   </script>
 </body>
 </html>
