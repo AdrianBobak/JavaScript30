@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw"></canvas>
+<script>
+  let canvas = document.querySelector("#draw"),
+      ctx = canvas.getContext('2d'),
+      lastX = 0,
+      lastY = 0;
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.addEventListener("mousemove", movePencil);
+  canvas.addEventListener("mousedown", pencilOnCanvas);
+  canvas.addEventListener("mouseup", pencilOffCanvas);
+
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+
+  let r = 244,
+      g = 66,
+      b = 66;
+
+  let size = 10,
+      increment = true;
+
+
+  function movePencil(e){
+    ctx.moveTo(e.clientX, e.clientY);
+  }
+  function pencilOnCanvas(e){
+    [lastX, lastY] = [e.clientX, e.clientY];
+    canvas.removeEventListener("mousemove", movePencil);
+    canvas.addEventListener("mousemove", startDrawing);
+    startDrawing(e);
+  }
+  function pencilOffCanvas(e){
+    canvas.removeEventListener("mousemove", startDrawing);
+    canvas.addEventListener("mousemove", movePencil);
+  }
+
+  function startDrawing(e){
+    console.log(lastX, lastY, e.clientX, e.clientY);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineWidth = size;
+    ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+    ctx.stroke();
+    switchSize();
+    switchColor();
+    [lastX, lastY] = [e.clientX, e.clientY];
+  }
+  
+  function switchSize(){
+    if(size === 100 && increment) increment = false;
+    else if(size === 10 && !increment) increment = true;
+    else {
+      if(increment) ++size;
+      else --size;
+    }
+  }
+
+  function switchColor(){
+    if(r === 244 && g !== 244 && b === 66) ++g;
+    else if(g === 244 && b === 66 && r !== 66) --r;
+    else if(r === 66 && g === 244 && b !== 244) ++b;
+    else if(r === 66 && b === 244 && g !== 66) --g;
+    else if(g === 66 && b === 244 && r !== 244) ++r;
+    else if(r === 244 && g === 66 && b !== 66) --b;
+  }
+</script>
+<style>
+  html, body {
+    margin: 0;
+    overflow: hidden;
+  }
+</style>
+
+</body>
+</html>

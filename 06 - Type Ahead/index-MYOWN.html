@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", endpoint, true);
+    xhr.send();
+    xhr.addEventListener("readystatechange", function(){
+      if(this.readyState === 4 && this.status === 200){
+        handleResponse(JSON.parse(xhr.response));
+      }
+    });
+    function handleResponse(response){
+      let input = document.querySelector(".search-form .search");
+      input.addEventListener('input', filterByInput);
+
+      function filterByInput(){
+        let regex = new RegExp("(" + input.value + ")", "gi");
+        let filtered = response.filter(function(el){
+          if(regex.test(el.city) || regex.test(el.state)){
+            return el;
+          };
+        });
+        handleFilteredItems(filtered, regex);
+      }
+      function handleFilteredItems(filtered, regex){
+        let output = document.querySelector(".suggestions"),
+            result = "";
+        if(filtered.length !== response.length){
+          filtered.forEach(function(elem){
+            let listItem = `<li><span class="name">${elem.city.replace(regex, `<span class="hl">$1</span>`)}, ${elem.state.replace(regex, `<span class="hl">$1</span>`)}</span><span class="population">${elem.population}</span></li>`;
+            result += listItem;
+          });
+        } else {
+          result = `<li>Filter for a city</li><li>or a state</li>`;
+        }
+        output.innerHTML = result;
+      }
+    }
+  </script>
+</body>
+</html>
