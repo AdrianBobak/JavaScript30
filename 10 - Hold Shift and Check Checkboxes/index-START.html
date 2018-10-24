@@ -96,6 +96,42 @@
   </div>
 
 <script>
+  let inputs = document.querySelectorAll("input"),
+      lastClickedInput,
+      isShift = false;
+
+  document.addEventListener('keydown', function(key){
+    if(key.keyCode === 16) isShift = true;
+  });
+  document.addEventListener('keyup', function(key){
+    if(key.keyCode === 16) isShift = false;
+  });
+  inputs.forEach(function(input){
+    input.addEventListener('click', checkOther);
+  });
+
+  function checkOther(e){
+    if(isShift && lastClickedInput){
+      let from,
+          to,
+          change = e.target.checked; // true or false
+      
+      for(let i = 0; i < inputs.length; i++){
+        if(inputs[i] == lastClickedInput) from = i;
+        if(inputs[i] == e.target) to = i;
+      }
+      if(from < to){
+        for(let i = (from); i <= to; i++ ){
+          inputs[i].checked = change; // true or false
+        }
+      } else {
+        for(let i = (to); i <= from; i++){
+          inputs[i].checked = change; // true or false
+        }
+      }
+    }
+    lastClickedInput = e.target;
+  }
 </script>
 </body>
 </html>
