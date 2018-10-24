@@ -18,28 +18,66 @@
     }
 
     // Regular
+    console.log('hello');
 
     // Interpolated
+    console.log('lorem %s dolor %s amet', 'ipsum', 'sit'); // %s będzie stanowiło kolejne argumenty: 'lorem ipsum dolor sit amet'
 
     // Styled
-
+    console.log('%c lorem ipsum dolor', 'color: #BADA55; font-size: 30px'); // %c określi stylowanie CSS elementu (tutaj zmiana koloru i rozmiaru)
+    
     // warning!
-
+    console.warn('NOPE!'); // ostrzeżenie
+    
     // Error :|
+    console.error('NOPE!'); // error
 
     // Info
+    console.info('lorem ipsum dolor'); // informacja
 
     // Testing
+    console.assert(1 !== 1, 'wrooong!'); // zapewnienie - jeśli jest false (tak jak tutaj), wyskoczy błąd, jeśli jest true, nie wyskoczy nic
 
     // clearing
+    //console.clear(); // czyszczenie konsoli
 
     // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.log(p); // wyświetli element i podświetli go na stronie
+    console.dir(p); // wyświetli właściwości i metody elementu
 
     // Grouping together
+    dogs.forEach(function(dog){
+      console.group(`${dog.name}`); // grupa logów - w grupie o nazwie dog.name mamy trzy console.logi
+      // console.groupCollapsed(`${dog.name}`); // może być też od razu zamknięta (domyślnie jest rozwinięta)
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`); // koniec grupy logów
+    });
 
     // counting
+    console.groupCollapsed('counting');
+      console.count('Wes');
+      console.count('Bos');
+      console.count('Wes');
+      console.count('Wes');
+      console.count('Bos');
+      console.count('Wes');
+      console.count('Bos');
+      console.groupEnd('counting');
 
     // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+    // table
+    console.table(dogs);
 
   </script>
 </body>
