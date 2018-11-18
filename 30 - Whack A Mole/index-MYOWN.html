@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack A Mole!</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Whack-a-mole! <span class="score">0</span></h1>
+  <button class="start" onClick="startGame()">Start!</button>
+
+  <div class="game">
+    <div class="hole hole1">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole2">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole3">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole4">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole5">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole6">
+      <div class="mole"></div>
+    </div>
+  </div>
+
+<script>
+  const holes = document.querySelectorAll('.hole');
+  const scoreBoard = document.querySelector('.score');
+  const moles = document.querySelectorAll('.mole');
+  let lastHole,
+      currentHole = false,
+      endGame,
+      counter,
+      gameStarted = false;
+
+  function startGame(){
+    if(!gameStarted){
+      gameStarted = true;
+      counter = 0;
+      scoreBoard.textContent = counter;
+      endGame = Date.now() + 10000;
+      moles.forEach(function(mole){
+        mole.addEventListener("click", hitMoles);
+      });
+      showMoles();
+    }
+  }
+
+  function hitMoles(e){
+    if(currentHole){
+      currentHole.classList.remove("up");
+      currentHole = false;
+      scoreBoard.textContent = ++counter;
+    }
+  }
+
+  function showMoles(){
+    if(endGame > Date.now()){
+      currentHole = holes[Math.floor((Math.random() * holes.length))];
+      if(lastHole === currentHole){
+        showMoles();
+        return;
+      }
+      lastHole = currentHole;
+      currentHole.classList.add('up');
+      setTimeout(function(){
+        if(currentHole) currentHole.classList.remove('up');
+        showMoles();
+      }, (Math.floor(((Math.random() *1000)+200))));
+    } else gameStarted = false;
+  }
+</script>
+</body>
+</html>

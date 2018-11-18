@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after { 
+    box-sizing: inherit; 
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+</style>
+
+<button></button>
+<script>
+const divs = document.querySelectorAll('div');
+
+divs.forEach(function(div){
+  // trzeci argument: capture. Jeśli jest false, najpierw odpala się event elementu klikniętego, a potem bubbluje w górę, odpalając inne, w które defacto też kliknęliśmy
+  div.addEventListener("click", logText, false);
+
+  // trzeci argument możemy też przedstawić w postaci obiektu
+  div.addEventListener("click", alertText, {
+    capture: false, // capturing - podobnie jak powyżej
+    once: true // once - jeśli zaznaczymy na true, event odpali się tylko raz dla każdego elementu, po czym zniknie
+  });
+})
+
+function logText(e){
+  e.stopPropagation(); // przerywamy propagację eventu - bubbling w górę na inne elementy-rodziców nie nastąpi
+  console.log(this.classList.value);
+}
+
+function alertText(e){
+  alert(this.classList.value);
+}
+// UWAGA! W tym przypadku stopPropagation() działa na obie funkcje!
+</script>
+</body>
+</html>

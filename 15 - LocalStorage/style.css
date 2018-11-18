@@ -61,12 +61,12 @@
     }
 
     .plates input + label:before {
-      content: '⬜️';
+      content: 'O';
       margin-right: 10px;
     }
 
     .plates input:checked + label:before {
-      content: '🌮';
+      content: 'X';
     }
 
     .add-items {

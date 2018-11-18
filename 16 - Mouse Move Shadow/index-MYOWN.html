@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: rgba(255, 0, 255, 0.7) 3px 0px 0px, rgba(0, 255, 255, 0.7) -3px 0px 0px, rgba(0, 255, 0, 0.7) 0px 3px 0px, rgba(0, 0, 255, 0.7) 0px -3px 0px;
+    font-size: 100px;
+    transition: 0.1s;
+  }
+  </style>
+
+<script>
+  let hero = document.querySelector(".hero");
+  let elem = hero.querySelector("h1");
+  hero.addEventListener("mousemove", shadowDance);
+  hero.addEventListener("mouseout", endDance);
+  
+  function shadowDance(e){
+    const mousePosition = {
+      vertical: e.clientX - window.innerWidth/2,
+      horizontal: e.clientY - window.innerHeight/2
+    }
+    elem.style.transition = `0.1s`;
+    elem.style.textShadow =
+    `rgba(255, 0, 255, 0.7) ${mousePosition.vertical/6}px ${mousePosition.horizontal/6}px 0px,
+    rgba(0, 255, 255, 0.7) ${(mousePosition.vertical/6)*-1}px ${(mousePosition.horizontal/6)*-1}px 0px,
+    rgba(0, 255, 0, 0.7) ${(mousePosition.horizontal/6)*-1}px ${(mousePosition.vertical/6)*-1}px 0px,
+    rgba(0, 0, 255, 0.7) ${mousePosition.horizontal/6}px ${mousePosition.vertical/6}px 0px`;
+  }
+
+  function endDance(){
+    elem.style.transition = `0.4s`;
+    elem.style.textShadow = `rgba(255, 0, 255, 0.7) 3px 0px 0px, rgba(0, 255, 255, 0.7) -3px 0px 0px, rgba(0, 255, 0, 0.7) 0px 3px 0px, rgba(0, 0, 255, 0.7) 0px -3px 0px`;
+  }
+</script>
+</body>
+</html>

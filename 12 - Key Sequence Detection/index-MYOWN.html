@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+let checker = [],
+    secretKey = ["r", "y", "b", "a", "z", "a", "b", "a"];
+document.addEventListener("keyup", addToArray);
+
+function addToArray(e){
+  checker.push(e.key);
+  if(checker.length > 8) checker.splice(0, 1);
+  for(let i = 0; i < secretKey.length; i++){
+    if(secretKey[i] !== checker[i]) return;
+  }
+  cornify_add();
+  document.addEventListener("keyup", cornify_add);
+};
+</script>
+</body>
+</html>

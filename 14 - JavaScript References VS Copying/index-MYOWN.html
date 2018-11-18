@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    ///////////////////////////////
+    let lorem = true;
+    let ipsum = lorem; // true
+    lorem = false;
+
+    let fun1 = function(){
+      return true;
+    }
+    let fun2 = fun1;
+    fun1 = function(){
+      return false;
+    }
+
+    console.groupCollapsed("string/number/boolean/function");
+      console.log(lorem); // false
+      console.log(ipsum); // true
+      console.log(fun1);
+      console.log(fun2);
+    console.groupEnd("string/number/boolean");
+
+    ////////////////////////////////
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    const playersReference = players;
+
+    const playersCopy = players.slice();
+
+    // ES6 Spread
+    const playersSpread = [...players];
+
+    players[0] = "Bos";
+    
+    console.groupCollapsed("array");
+      console.log(players); // zmieniona tablica początkowa ("Wes" na "Bos" w pierwszym elemencie)
+      console.log(playersReference); // tablica ma referencję do tablicy początkowej, więc tu też była zmiana
+      console.log(playersCopy); // ta tablica jest osobnym elementem, więc zmiana tablicy początkowej nie ma na nią wpływu
+      console.log(playersSpread); // ta tablica jest osobnym elementem, więc zmiana tablicy początkowej nie ma na nią wpływu
+    console.groupEnd("array");
+
+    
+
+    // with Objects
+    const person = {
+      name: 'Wes Bos',
+      age: 30,
+      returnName: function(){return this.name;},
+      social: {
+        twitter: '@wesbos',
+        facebook: 'wesbos'
+      }
+    };
+
+    const personReference = person;
+
+    const personCopyByJson = JSON.parse(JSON.stringify(person));
+
+    const personCopyByAssign = Object.assign({}, person);
+
+    const personSpread = {...person};
+
+    person.name = "Lorem ipsum";
+    person.isTrue = false;
+    person.social.facebook = "lorem";
+
+    console.groupCollapsed("objects");
+      console.log(person); // zmieniony obiekt początkowy (zmiana w person.name, dodano person.isTrue)
+      console.log(personReference); // obiekt ma referencję do obiektu początkowego, więc tu też była zmiana
+      console.log(personCopyByJson); // ten obiekt jest kopią stworzoną przez JSON.stringify - skopiowane zostały wszystkie właściwości, ale nie metody (funkcja returnName przepadła), zmiany nie zostały wprowadzone
+      console.log(personCopyByAssign); // ten obiekt jest kopią stworzoną przez Object.assign - skopiowane zostały wszystkie wartości i funkcje starego obiektu, które znajdują się na pierwszym poziomie (social.facebook i social.twitter wciąż jest referencją), zmiany zostały wprowadzone tylko na drugim poziomie
+      console.log(personSpread); // ten obiekt jest kopią stworzoną przez ES6 spread - skopiowane zostały wszystkie wartości i funkcje starego obiektu, które znajdują się na pierwszym poziomie (social.facebook i social.twitter wciąż jest referencją), zmiany zostały wprowadzone tylko na drugim poziomie
+    console.groupEnd("objects");
+  </script>
+</body>
+</html>
